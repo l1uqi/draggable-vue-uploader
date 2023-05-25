@@ -1,0 +1,23 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: created",
+      "code": "ENOENT",
+      "stack": "Error: not found: created\n    at getNotFoundError (C:\\snapshot\\dist\\pnpm.cjs)\n    at Function.whichSync [as sync] (C:\\snapshot\\dist\\pnpm.cjs)\n    at getCommandAbsolutePathSync (C:\\snapshot\\dist\\pnpm.cjs)\n    at default_1 (C:\\snapshot\\dist\\pnpm.cjs)\n    at C:\\snapshot\\dist\\pnpm.cjs"
+    }
+  },
+  "2 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "E:\\github\\draggable-vue-uploader",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: created",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: created\n    at getNotFoundError (C:\\snapshot\\dist\\pnpm.cjs)\n    at Function.whichSync [as sync] (C:\\snapshot\\dist\\pnpm.cjs)\n    at getCommandAbsolutePathSync (C:\\snapshot\\dist\\pnpm.cjs)\n    at default_1 (C:\\snapshot\\dist\\pnpm.cjs)\n    at C:\\snapshot\\dist\\pnpm.cjs"
+    }
+  }
+}

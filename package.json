@@ -1,0 +1,23 @@
+{
+  "name": "draggable-vue-uploader",
+  "version": "0.0.1",
+  "description": "This is a simple file upload component that allows drag and drop sorting of uploaded files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/l1uqi/draggable-vue-uploader.git"
+  },
+  "author": "liuqi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/l1uqi/draggable-vue-uploader/issues"
+  },
+  "homepage": "https://github.com/l1uqi/draggable-vue-uploader#readme",
+  "dependencies": {
+    "vite": "^4.3.8",
+    "vue": "^3.0.0"
+  }
+}
