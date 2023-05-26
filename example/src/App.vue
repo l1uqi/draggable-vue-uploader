@@ -3,23 +3,27 @@ const handleChange = (file) => {
   console.log(file);
 };
 const handleProgress = (progress) => {
-  console.log('handleProgress', progress);
+  console.log("handleProgress", progress);
 };
 const handleSuccess = (res) => {
-  console.log('handleSuccess', res);
+  console.log("handleSuccess", res);
 };
 const handleError = (err) => {
-  console.log('handleError', err);
+  console.log("handleError", err);
+};
+
+const handleDelete = (err) => {
+  console.log("handleDelete");
 };
 
 const beforeUpload = (file) => {
   return new Promise((resolve, reject) => {
-    console.log('beforeUpload',file);
+    console.log("beforeUpload", file);
     setTimeout(() => {
-      resolve(false);
-    }, 3000)
-  })
-}
+      resolve(true);
+    }, 1000);
+  });
+};
 </script>
 
 <template>
@@ -29,6 +33,7 @@ const beforeUpload = (file) => {
     @progress="handleProgress"
     @success="handleSuccess"
     @error="handleError"
+    @delete="handleDelete"
     :beforeUpload="beforeUpload"
   ></draggable-upload>
 </template>

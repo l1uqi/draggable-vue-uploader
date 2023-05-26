@@ -5,7 +5,7 @@ export const uploadFile = (file, url, onProgress, onSuccess, onError) => {
   xhr.upload.onprogress = (event) => {
     if (event.lengthComputable) {
       const percent = (event.loaded / event.total) * 100;
-      onProgress(percent);
+      onProgress(Math.round(percent));
     }
   };
 
