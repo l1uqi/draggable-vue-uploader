@@ -1,4 +1,4 @@
-import Uploader from './components/Upload.vue';
+import Uploader from './components/index.vue';
 
 const install = (app, options = {}) => {
   const finalOptions = {

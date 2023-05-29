@@ -1,4 +1,7 @@
 <script setup>
+const fileList = [
+
+];
 const handleChange = (file) => {
   console.log(file);
 };
@@ -12,8 +15,8 @@ const handleError = (err) => {
   console.log("handleError", err);
 };
 
-const handleDelete = (err) => {
-  console.log("handleDelete");
+const handleDelete = (file, fileList) => {
+  console.log("handleDelete", file, fileList);
 };
 
 const beforeUpload = (file) => {
@@ -21,13 +24,14 @@ const beforeUpload = (file) => {
     console.log("beforeUpload", file);
     setTimeout(() => {
       resolve(true);
-    }, 1000);
+    }, 0);
   });
 };
 </script>
 
 <template>
-  <draggable-upload
+  <div class="container">
+    <draggable-upload
     action="https://eopda57dr0r1oqg.m.pipedream.net"
     @change="handleChange"
     @progress="handleProgress"
@@ -35,20 +39,12 @@ const beforeUpload = (file) => {
     @error="handleError"
     @delete="handleDelete"
     :beforeUpload="beforeUpload"
+    :fileList="fileList"
   ></draggable-upload>
+  </div>
 </template>
-
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.container {
+  width: 100vw;
 }
 </style>

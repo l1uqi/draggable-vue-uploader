@@ -84,11 +84,13 @@ const props = defineProps({
   name: String,
   data: Object,
   beforeUpload: Function,
+  file: Object,
+  url: String
 });
 
-const imgURL = ref("");
+const imgURL = ref(props.url);
 
-const file = ref(null)
+const file = ref(props.file)
 
 const fileInput = ref(null);
 
@@ -97,7 +99,7 @@ const loading = ref(false);
 const percentStr = ref('');
 
 const isFile = computed(() => {
-  return imgURL.value !== '' || file.value
+  return (imgURL.value !== '' && typeof imgURL.value != 'undefined') || file.value
 })
 
 const onProgress = (percent) => {
@@ -128,6 +130,7 @@ const handldInputChange = (event) => {
       next = await props.beforeUpload(file);
     }
     if (next) {
+      percentStr.value = ''
       loading.value = true;
       uploadFile(file, props.action, onProgress, onSuccess, onError);
     }
@@ -138,9 +141,12 @@ const handldInputChange = (event) => {
 };
 
 const handleDeleteFile = () => {
+  emit('delete', {
+    file,
+    url: imgURL.value
+  });
   file.value = null;
   imgURL.value = '';
-  emit('delete');
 }
 </script>
 <style>
@@ -151,6 +157,7 @@ const handleDeleteFile = () => {
   height: 150px;
   width: 150px;
   position: relative;
+  margin: 5px;
 }
 
 .draggable-upload-container {
