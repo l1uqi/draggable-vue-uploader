@@ -5,7 +5,7 @@ If you found the project helpful,  I hope you can contribute a star
 
 **Support for Vue 3**
 
-## run
+## Run
 
 cd example
 
