@@ -1,37 +1,30 @@
 <template>
-   <UploadList
-    v-if="props.fileList"
-    :action="props.action"
-    :fileList="props.fileList"
-    @change="onChange"
-    @delete="onDelete"
-    @success="onSuccess"
-    @error="onError"
-    @progress="onProgress"
-  />
-  <Upload
-    v-else
-    :action="props.action"
-    @change="onChange"
-    @delete="onDelete"
-    @success="onSuccess"
-    @error="onError"
-    @progress="onProgress"
-  />
+  <render />
 </template>
+
 <script setup>
-import { ref, defineProps, defineEmits, computed } from "vue";
+import { h, ref, defineProps, defineEmits } from "vue";
 import Upload from "./upload.vue";
-import UploadList from './UploadList.vue'
+import UploadList from "./UploadList.vue";
+import ImgViewer from "./ImgViewer.vue";
 
 const emit = defineEmits(["change", "delete", "progress", "success", "error"]);
+
+const showImgViewer = ref(false);
+
+const imgViewerProps = ref({
+  imgURL: "",
+  index: 0,
+  list: [],
+});
 
 const props = defineProps({
   action: String,
   name: String,
   data: Object,
   beforeUpload: Function,
-  fileList: Array
+  fileList: Array,
+  url: String,
 });
 
 const onProgress = (percent) => {
@@ -44,12 +37,50 @@ const onError = (error) => {
   emit("error", error);
 };
 
-const onChange = (event) => {
-  emit("change", event);
-  console.log(event);
+const onChange = (file, fileList) => {
+
+  emit("change", file, fileList);
 };
 
 const onDelete = (file, fileList) => {
   emit("delete", file, fileList);
+};
+
+const onViewer = (imgURL, index, fileList) => {
+  imgViewerProps.value.imgURL = imgURL;
+  if (fileList) {
+    imgViewerProps.value.index = index;
+    imgViewerProps.value.list = fileList;
+  }
+
+  console.log(fileList);
+
+  showImgViewer.value = true;
+};
+
+const onClose = () => {
+  showImgViewer.value = false;
+};
+
+const render = () => {
+  const propsData = {
+    ...props,
+    onChange,
+    onDelete,
+    onSuccess,
+    onError,
+    onProgress,
+    onViewer,
+  };
+  return h("div", null, [
+    showImgViewer.value
+      ? h(ImgViewer, {
+          ...imgViewerProps.value,
+          showImgViewer: showImgViewer.value,
+          onClose,
+        })
+      : "",
+    props.fileList ? h(UploadList, propsData) : h(Upload, propsData),
+  ]);
 };
 </script>

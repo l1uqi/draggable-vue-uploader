@@ -26,3 +26,15 @@ export const uploadFile = (file, url, onProgress, onSuccess, onError) => {
 
   xhr.send(formData);
 };
+
+export const throttle = (fn, delay) => {
+  let timer = null;
+  return function(...args) {
+    if (!timer) {
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+        timer = null;
+      }, delay);
+    }
+  };
+}

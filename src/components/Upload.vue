@@ -22,9 +22,14 @@
       </div>
     </div>
 
-    <input type="file" class="draggable-upload-input" ref="fileInput" @change="handldInputChange" />
+    <input
+      type="file"
+      class="draggable-upload-input"
+      ref="fileInput"
+      @change="handleInputChange"
+    />
     <div class="draggable-upload-picture" v-if="isFile">
-      <img :src="imgURL" />
+      <img :src="url" />
       <div class="mask">
         <div class="mask-icon">
           <svg
@@ -37,6 +42,7 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
             width="20"
             height="20"
+            @click="handleImgViewer"
           >
             <path
               d="M512 832c-156.448 0-296.021333-98.730667-418.410667-291.605333a52.938667 52.938667 0 0 1 0-56.789334C215.978667 290.730667 355.552 192 512 192c156.448 0 296.021333 98.730667 418.410667 291.605333a52.938667 52.938667 0 0 1 0 56.789334C808.021333 733.269333 668.448 832 512 832z m0-576c-129.514667 0-249.461333 83.850667-360.117333 256C262.538667 684.149333 382.485333 768 512 768c129.514667 0 249.461333-83.850667 360.117333-256C761.461333 339.850667 641.514667 256 512 256z m0 405.333333c-83.210667 0-150.666667-66.858667-150.666667-149.333333S428.789333 362.666667 512 362.666667s150.666667 66.858667 150.666667 149.333333S595.210667 661.333333 512 661.333333z m0-64c47.552 0 86.101333-38.208 86.101333-85.333333S559.552 426.666667 512 426.666667c-47.552 0-86.101333 38.208-86.101333 85.333333s38.549333 85.333333 86.101333 85.333333z"
@@ -63,91 +69,114 @@
             ></path>
           </svg>
         </div>
-        
       </div>
-      <div class="progress" v-if="loading">
+      <div class="progress" v-if="uploadStatus.loading">
         <div class="progress-line">
-          <div class="progress-line-inner" :style="{width: percentStr}"></div>
+          <div
+            class="progress-line-inner"
+            :style="{ width: uploadStatus.percent }"
+          ></div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, defineProps, defineEmits, computed  } from "vue";
+import { ref, toRefs, defineProps, defineEmits, computed } from "vue";
 import { uploadFile } from "../utils/index";
 
-const emit = defineEmits(["change", "delete", "progress", "success", "error"]);
+const emit = defineEmits([
+  "change",
+  "delete",
+  "progress",
+  "success",
+  "error",
+  "viewer",
+]);
 
 const props = defineProps({
   action: String,
   name: String,
   data: Object,
   beforeUpload: Function,
-  file: Object,
-  url: String
+  file: {
+    type: Object,
+    default: null,
+    required: false,
+  },
+  url: {
+    type: String,
+    default: "",
+    required: false,
+  },
 });
 
-const imgURL = ref(props.url);
+const url = ref(props.url);
 
-const file = ref(props.file)
+const file = ref(props.file);
 
-const fileInput = ref(null);
+const action = ref(props.action);
 
-const loading = ref(false);
-
-const percentStr = ref('');
+const inputRef = ref(null);
+const uploadStatus = ref({ loading: false, percent: "" });
 
 const isFile = computed(() => {
-  return (imgURL.value !== '' && typeof imgURL.value != 'undefined') || file.value
-})
+  return (url.value !== "" && typeof url.value != "undefined") || file.value;
+});
 
-const onProgress = (percent) => {
-  percentStr.value = `${percent}%`
-  emit("progress", percent);
-};
-const onSuccess = (result) => {
-  loading.value = false;
-  emit("success", result);
-};
-const onError = (error) => {
-  loading.value = false;
-  emit("error", error);
-};
-
-const handldInputChange = (event) => {
+const handleInputChange = (event) => {
   const input = event.target;
-  const file = input.files[0];
+  const selectedFile = input.files[0];
   const reader = new FileReader();
-  fileInput.value.value = '';
+  inputRef.value = "";
 
   reader.onload = async () => {
     let next = true;
-    imgURL.value = reader.result;
-    file.value = file;
-    emit("change", file);
+    url.value = reader.result;
+    file.value = selectedFile;
+    let files = file.value;
+    // 图片预览
+    files.url = url.value;
+    emit("change", files);
     if (props.beforeUpload) {
-      next = await props.beforeUpload(file);
+      next = await props.beforeUpload(selectedFile);
     }
     if (next) {
-      percentStr.value = ''
-      loading.value = true;
-      uploadFile(file, props.action, onProgress, onSuccess, onError);
+      uploadStatus.value.percent = "";
+      uploadStatus.value.loading = true;
+      uploadFile(selectedFile, action.value, onProgress, onSuccess, onError);
     }
   };
-  if (file) {
-    reader.readAsDataURL(file);
+  if (selectedFile) {
+    reader.readAsDataURL(selectedFile);
   }
 };
 
+const onProgress = (percent) => {
+  uploadStatus.value.percent = `${percent}%`;
+  emit("progress", percent);
+};
+const onSuccess = (result) => {
+  uploadStatus.value.loading = false;
+  emit("success", result);
+};
+const onError = (error) => {
+  uploadStatus.value.loading = false;
+  emit("error", error);
+};
+
 const handleDeleteFile = () => {
-  emit('delete', {
+  emit("delete", {
     file,
-    url: imgURL.value
+    url: url.value,
   });
   file.value = null;
-  imgURL.value = '';
-}
+  url.value = "";
+};
+
+const handleImgViewer = () => {
+  emit("viewer", url.value);
+};
 </script>
 <style>
 .draggable-upload {

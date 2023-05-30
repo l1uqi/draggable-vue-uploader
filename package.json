@@ -18,9 +18,7 @@
   "homepage": "https://github.com/l1uqi/draggable-vue-uploader#readme",
   "dependencies": {
     "vite": "^4.3.8",
-    "vue": "^3.0.0"
-  },
-  "devDependencies": {
-    "unocss": "^0.52.3"
+    "vue": "^3.0.0",
+    "vuedraggable": "^4.1.0"
   }
 }
