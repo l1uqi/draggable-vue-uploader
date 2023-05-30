@@ -4,10 +4,8 @@
       class="draggable-upload-list--item"
       v-for="(item, index) in list"
       :key="item.id"
-      draggable="true"
+      :draggable="index < list.length - 1"
       @dragstart="(e) => dragStart(e, index)"
-      @dragend="dragEnd"
-      @dragleave="dragLeave "
       @dragover="(e) => dragOver(e, index)"
     >
       <Upload
@@ -35,7 +33,7 @@ const dragElement = ref(null);
 
 const dragIndex = ref(0);
 
-const dragOverIndex = ref(0);
+const dragOverIndex = ref(-1);
 
 const props = defineProps({
   action: String,
@@ -60,32 +58,21 @@ const dragStart = (event, index) => {
   dragElement.value = list.value[index];
 };
 
-const dragEnd = (event) => {
-  if(!dragOverIndex.value) {
-    return
+const dragOver = (event, index) => {
+  event.preventDefault();
+  dragOverIndex.value = index;
+  if (dragOverIndex.value === -1 || dragIndex.value === index || dragOverIndex.value === list.value.length - 1) {
+    return;
   }
   // 后删除
   list.value.splice(dragIndex.value, 1);
   // 先插入
-  list.value.splice(dragOverIndex.value, 0, dragElement.value);
+  list.value.splice(index, 0, dragElement.value);
+  // 更改当前下标
+  dragIndex.value = index;
+  dragElement.value = list.value[index];
   emit("change", dragElement.value, getList());
 };
-
-const dragOver = (event, index) => {
-  event.preventDefault();
-  dragOverIndex.value = index;
-};
-
-// 事件在拖动的元素或选中的文本离开一个有效的放置目标时被触发。
-const dragLeave = () => {
-  dragOverIndex.value = null;
-}
-
-const drop = (event) => {
-  // console.log('drop', event);
-};
-
-const dragover = () => {};
 
 const onProgress = (percent) => {
   // emit("progress", percent);

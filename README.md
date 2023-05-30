@@ -12,6 +12,9 @@
 
 **支持 Vue 3**
 
+## 例子
+[demo](https://hello7cat.com/draggable-vue-uploader/)
+
 ## 运行
 
 cd example
