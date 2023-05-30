@@ -7,6 +7,7 @@
       draggable="true"
       @dragstart="(e) => dragStart(e, index)"
       @dragend="dragEnd"
+      @dragleave="dragLeave "
       @dragover="(e) => dragOver(e, index)"
     >
       <Upload
@@ -60,6 +61,9 @@ const dragStart = (event, index) => {
 };
 
 const dragEnd = (event) => {
+  if(!dragOverIndex.value) {
+    return
+  }
   // 后删除
   list.value.splice(dragIndex.value, 1);
   // 先插入
@@ -71,6 +75,11 @@ const dragOver = (event, index) => {
   event.preventDefault();
   dragOverIndex.value = index;
 };
+
+// 事件在拖动的元素或选中的文本离开一个有效的放置目标时被触发。
+const dragLeave = () => {
+  dragOverIndex.value = null;
+}
 
 const drop = (event) => {
   // console.log('drop', event);
