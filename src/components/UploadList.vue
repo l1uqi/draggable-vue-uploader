@@ -15,7 +15,7 @@
         :url="item.url"
         @change="(e) => onChange(e, index)"
         @delete="(e) => onDelete(e, index)"
-        @success="(e) => onSuccess(e, index)"
+        @success="(e, file) => onSuccess(e, index, file)"
         @error="(e) => onError(e, index)"
         @progress="(e) => onProgress(e, index)"
         @viewer="(e) => onViewer(e, index)"
@@ -43,7 +43,7 @@ const props = defineProps({
   fileList: Array,
 });
 
-const list = ref(JSON.parse(JSON.stringify(props.fileList)));
+const list = ref(props.fileList);
 
 onMounted(() => {
   addList();
@@ -61,7 +61,11 @@ const dragStart = (event, index) => {
 const dragOver = (event, index) => {
   event.preventDefault();
   dragOverIndex.value = index;
-  if (dragOverIndex.value === -1 || dragIndex.value === index || dragOverIndex.value === list.value.length - 1) {
+  if (
+    dragOverIndex.value === -1 ||
+    dragIndex.value === index ||
+    dragOverIndex.value === list.value.length - 1
+  ) {
     return;
   }
   // 后删除
@@ -75,10 +79,13 @@ const dragOver = (event, index) => {
 };
 
 const onProgress = (percent) => {
-  // emit("progress", percent);
+  emit("progress", percent);
 };
-const onSuccess = (result) => {
-  // emit("success", result);
+const onSuccess = (result, index, file) => {
+  list.value[index].file = file
+  list.value[index].url = file.url
+  emit("success", result);
+  addList();
 };
 const onError = (error) => {
   // emit("error", error);
@@ -90,14 +97,13 @@ const onChange = (file, index) => {
   if (file.url) {
     list.value[index].url = file.url;
   }
-  console.log(list.value);
   addList();
   emit("change", file, getList());
 };
 
 const onDelete = (e, index) => {
   list.value.splice(index, 1);
-  emit("delete", e, getList());
+  emit("delete", e, index);
 };
 
 const onViewer = (e, index) => {

@@ -58,21 +58,21 @@ const fileList = ref([
     file: null,
   },
 ]);
-const handleChange = (file, list) => {
+const handleChange = (file) => {
   fileList.value = list;
 };
 const handleProgress = (progress) => {
   console.log("handleProgress", progress);
 };
 const handleSuccess = (res) => {
-  console.log("handleSuccess", res);
+  console.log("handleSuccess", res, fileList.value);
 };
 const handleError = (err) => {
   console.log("handleError", err);
 };
 
-const handleDelete = (file, fileList) => {
-  console.log("handleDelete", file, fileList);
+const handleDelete = (file, index) => {
+  console.log("handleDelete", file, index);
 };
 
 const beforeUpload = (file) => {

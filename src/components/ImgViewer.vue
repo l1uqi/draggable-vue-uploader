@@ -232,6 +232,11 @@ const handleClose = () => {
   border-radius: 70px;
   background-color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
+  z-index: 2;
+}
+
+.viewer-close:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .viewer-close-icon {

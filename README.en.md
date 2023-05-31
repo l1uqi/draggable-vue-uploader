@@ -17,6 +17,13 @@ cd example
 
 npm run dev
 
+## API
+
+### Events
+|事件名|描述|参数|
+|---|---|---|
+|change|上传的文件状态发生改变时触发|fileList: `FileItem[]`<br>fileItem: `fileItem`|
+
 
 ## To-Do List
 

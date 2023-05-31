@@ -30,20 +30,19 @@ const props = defineProps({
 const onProgress = (percent) => {
   emit("progress", percent);
 };
-const onSuccess = (result) => {
-  emit("success", result);
+const onSuccess = (result, list) => {
+  emit("success", result, list);
 };
 const onError = (error) => {
   emit("error", error);
 };
 
 const onChange = (file, fileList) => {
-
   emit("change", file, fileList);
 };
 
-const onDelete = (file, fileList) => {
-  emit("delete", file, fileList);
+const onDelete = (file, index) => {
+  emit("delete", file, index);
 };
 
 const onViewer = (imgURL, index, fileList) => {
@@ -52,8 +51,6 @@ const onViewer = (imgURL, index, fileList) => {
     imgViewerProps.value.index = index;
     imgViewerProps.value.list = fileList;
   }
-
-  console.log(fileList);
 
   showImgViewer.value = true;
 };
