@@ -6,11 +6,25 @@
 
 </div>
 
-一个简单的上传组件, 支持图片列表拖拽排序。
+一个简单的图片上传组件, 支持图片列表拖拽排序。
 
 如果项目对你有所帮助, 欢迎star!
 
 **支持 Vue 3**
+
+## 安装
+```
+npm i draggable-vue-uploader
+```
+
+## 使用
+```
+import DraggableUploader from 'draggable-vue-uploader';
+import 'draggable-vue-uploader/dist/style.css'
+
+createApp(App).use(DraggableUploader).mount('#app')
+
+```
 
 ## 例子
 [demo](https://hello7cat.com/draggable-vue-uploader/)
@@ -30,6 +44,7 @@ npm run dev
 |---|---|---|---|
 |action|上传的URL|`string`|`-`|
 |fileList|文件列表|`FileItem[]`|`-`|
+|maximum|列表最大上传数|`number`|`10`|
 |before-upload|上传文件前触发|`(file: File) => boolean\| Promise`|`-`|
 ### 事件
 |事件名|描述|参数|
@@ -43,6 +58,6 @@ npm run dev
 
 - [x] 基础功能
 - [x] 图片预览
+- [x] 打包发布
 - [ ] 动画
-- [ ] 打包
 

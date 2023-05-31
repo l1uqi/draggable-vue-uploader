@@ -6,11 +6,25 @@
 
 </div>
 
-A simple uploader component that supports drag-and-drop sorting of image lists.
+A simple image uploader component that supports drag-and-drop sorting of image lists.
 
 If this project is helpful to you, please star it!
 
 **Supports Vue 3**
+
+## Installation
+```
+npm i draggable-vue-uploader
+```
+
+## Usage
+```
+import DraggableUploader from 'draggable-vue-uploader';
+import 'draggable-vue-uploader/dist/style.css'
+
+createApp(App).use(DraggableUploader).mount('#app')
+
+```
 
 ## Example
 [demo](https://hello7cat.com/draggable-vue-uploader/)
@@ -30,6 +44,7 @@ npm run dev
 |---|---|---|---|
 |action|The URL to upload to|`string`|`-`|
 |fileList|List of files|`FileItem[]`|`-`|
+|maximum|Maximum number of files in the list|`number`|`10`|
 |before-upload|Triggered before uploading a file|`(file: File) => boolean\| Promise`|`-`|
 
 ### Events
@@ -44,5 +59,5 @@ npm run dev
 
 - [x] Basic functionality
 - [x] Image preview
+- [x] Packaging
 - [ ] Animation
-- [ ] Packaging
