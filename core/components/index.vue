@@ -1,12 +1,12 @@
 <template>
-  <render />
+  <uploader />
 </template>
 
 <script setup>
 import { h, ref, defineProps, defineEmits } from "vue";
 import Upload from "./upload.vue";
 import UploadList from "./UploadList.vue";
-import ImgViewer from "./ImgViewer.vue";
+import Viewer from "./Viewer.vue";
 
 const emit = defineEmits(["change", "delete", "progress", "success", "error"]);
 
@@ -25,6 +25,7 @@ const props = defineProps({
   beforeUpload: Function,
   fileList: Array,
   url: String,
+  maximum: Number,
 });
 
 const onProgress = (file, percent) => {
@@ -59,7 +60,7 @@ const onClose = () => {
   showImgViewer.value = false;
 };
 
-const render = () => {
+const uploader = () => {
   const propsData = {
     ...props,
     onChange,
@@ -71,7 +72,7 @@ const render = () => {
   };
   return h("div", null, [
     showImgViewer.value
-      ? h(ImgViewer, {
+      ? h(Viewer, {
           ...imgViewerProps.value,
           showImgViewer: showImgViewer.value,
           onClose,

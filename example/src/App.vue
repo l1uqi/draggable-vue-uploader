@@ -41,22 +41,6 @@ const fileList = ref([
     id: 8,
     file: null,
   },
-  {
-    url: "https://images6.alphacoders.com/122/1220224.jpg",
-    id: 9,
-    file: null,
-  },
-  {
-    url: "https://pica.zhimg.com/80/v2-183c6d6f03075ab56014d313e9c07f5b_720w.webp?source=1940ef5c",
-    id: 10,
-    file: null,
-  },
-
-  {
-    url: "https://picx.zhimg.com/80/v2-8a065b0b29a0ff35ae9337acc11c0606_720w.webp?source=1940ef5c",
-    id: 12,
-    file: null,
-  },
 ]);
 const handleChange = (files) => {
   fileList.value = files;
@@ -77,7 +61,6 @@ const handleDelete = (file, index) => {
 
 const beforeUpload = (file) => {
   return new Promise((resolve, reject) => {
-    console.log("beforeUpload", file);
     setTimeout(() => {
       resolve(true);
     }, 0);
@@ -97,7 +80,7 @@ const beforeUpload = (file) => {
       @delete="handleDelete"
       :beforeUpload="beforeUpload"
     ></draggable-upload>
-    <span>列表</span>
+    <span>列表(最多上传10张)</span>
     <draggable-upload
       action="https://eopda57dr0r1oqg.m.pipedream.net"
       @change="handleChange"

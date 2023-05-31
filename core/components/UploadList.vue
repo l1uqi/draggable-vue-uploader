@@ -41,6 +41,11 @@ const props = defineProps({
   data: Object,
   beforeUpload: Function,
   fileList: Array,
+  maximum: {
+    type: Number,
+    default: 10,
+    required: false
+  }
 });
 
 const list = ref(props.fileList);
@@ -50,7 +55,9 @@ onMounted(() => {
 });
 
 const addList = () => {
-  list.value.push({ file: null, url: "", id: new Date().getTime() });
+  if(list.value.length < props.maximum) {
+    list.value.push({ file: null, url: "", id: new Date().getTime() });
+  }
 };
 
 const fileList = computed(() => {
@@ -109,6 +116,9 @@ const onChange = (file, index) => {
 
 const onDelete = (e, index) => {
   list.value.splice(index, 1);
+  if(list.value[list.value.length-1].file !== null || list.value[list.value.length-1].url !== '') {
+    addList();
+  }
   emit("delete", e, index);
 };
 

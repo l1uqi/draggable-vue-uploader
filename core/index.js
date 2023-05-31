@@ -1,12 +1,6 @@
 import Uploader from './components/index.vue';
 
-const install = (app, options = {}) => {
-  const finalOptions = {
-    ...options,
-  };
-
-  // const DraggableUploaderComponent = DraggableUploader(finalOptions);
-
+const install = (app) => {
   app.component('draggable-upload', Uploader);
 };
 
