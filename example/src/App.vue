@@ -1,19 +1,19 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 const fileList = ref([
   {
     url: "https://images4.alphacoders.com/127/1274960.png",
-    id: 1 ,
+    id: 1,
     file: null,
   },
   {
     url: "https://images3.alphacoders.com/129/1290495.jpg",
-    id: 2 ,
+    id: 2,
     file: null,
   },
   {
     url: "https://images5.alphacoders.com/899/899831.jpg",
-    id: 3 ,
+    id: 3,
     file: null,
   },
   {
@@ -58,16 +58,16 @@ const fileList = ref([
     file: null,
   },
 ]);
-const handleChange = (file) => {
-  fileList.value = list;
+const handleChange = (files) => {
+  fileList.value = files;
 };
-const handleProgress = (progress) => {
-  console.log("handleProgress", progress);
+const handleProgress = (file, progress) => {
+  console.log("handleProgress", file, progress);
 };
-const handleSuccess = (res) => {
-  console.log("handleSuccess", res, fileList.value);
+const handleSuccess = (file, res) => {
+  console.log("handleSuccess", file, res);
 };
-const handleError = (err) => {
+const handleError = (file, err) => {
   console.log("handleError", err);
 };
 
@@ -87,6 +87,7 @@ const beforeUpload = (file) => {
 
 <template>
   <div class="container">
+    <span>单个</span>
     <draggable-upload
       action="https://eopda57dr0r1oqg.m.pipedream.net"
       @change="handleChange"
@@ -95,14 +96,27 @@ const beforeUpload = (file) => {
       @error="handleError"
       @delete="handleDelete"
       :beforeUpload="beforeUpload"
+    ></draggable-upload>
+    <span>列表</span>
+    <draggable-upload
+      action="https://eopda57dr0r1oqg.m.pipedream.net"
+      @change="handleChange"
+      @progress="handleProgress"
+      @success="handleSuccess"
+      @error="handleError"
+      @delete="handleDelete"
+      :before-upload="beforeUpload"
       :fileList="fileList"
     ></draggable-upload>
-
-    <span v-for="(item, index) in fileList" :key="item.id">{{ item.id }}&nbsp;</span>
+    序号:
+    <span v-for="(item, index) in fileList" :key="item.id"
+      >{{ item.id }}&nbsp;</span
+    >
   </div>
 </template>
 <style scoped>
 .container {
   width: 100vw;
+  height: 100vh;
 }
 </style>

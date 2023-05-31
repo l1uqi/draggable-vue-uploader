@@ -27,18 +27,18 @@ const props = defineProps({
   url: String,
 });
 
-const onProgress = (percent) => {
-  emit("progress", percent);
+const onProgress = (file, percent) => {
+  emit("progress", file, percent);
 };
-const onSuccess = (result, list) => {
-  emit("success", result, list);
+const onSuccess = (file, result) => {
+  emit("success", file, result);
 };
-const onError = (error) => {
-  emit("error", error);
+const onError = (file, error) => {
+  emit("error", file, error);
 };
 
-const onChange = (file, fileList) => {
-  emit("change", file, fileList);
+const onChange = (files) => {
+  emit("change", files);
 };
 
 const onDelete = (file, index) => {

@@ -70,13 +70,13 @@
           </svg>
         </div>
       </div>
-      <div class="progress" v-if="uploadStatus.loading">
-        <div class="progress-line">
-          <div
-            class="progress-line-inner"
-            :style="{ width: uploadStatus.percent }"
-          ></div>
-        </div>
+    </div>
+    <div class="progress" v-if="uploadStatus.loading">
+      <div class="progress-line">
+        <div
+          class="progress-line-inner"
+          :style="{ width: uploadStatus.percent }"
+        ></div>
       </div>
     </div>
   </div>
@@ -118,6 +118,7 @@ const file = ref(props.file);
 const action = ref(props.action);
 
 const inputRef = ref(null);
+
 const uploadStatus = ref({ loading: false, percent: "" });
 
 const isFile = computed(() => {
@@ -134,10 +135,8 @@ const handleInputChange = (event) => {
     let next = true;
     url.value = reader.result;
     file.value = selectedFile;
-    let files = file.value;
-    // 图片预览
-    files.url = url.value;
-    emit("change", files);
+    file.value.url = url.value;
+    emit("change", file.value);
     if (props.beforeUpload) {
       next = await props.beforeUpload(selectedFile);
     }
@@ -154,15 +153,17 @@ const handleInputChange = (event) => {
 
 const onProgress = (percent) => {
   uploadStatus.value.percent = `${percent}%`;
-  emit("progress", percent);
+  emit("progress", file.value, percent);
 };
 const onSuccess = (result) => {
   uploadStatus.value.loading = false;
-  emit("success", result);
+  emit("success", file.value, result);
 };
 const onError = (error) => {
   uploadStatus.value.loading = false;
-  emit("error", error);
+  file.value = null;
+  url.value = '';
+  emit("error", null, error);
 };
 
 const handleDeleteFile = () => {
@@ -272,6 +273,7 @@ const handleImgViewer = () => {
   display: flex;
   justify-content: center;
   border-radius: 5px;
+  z-index: 2;
 }
 
 .progress-line {

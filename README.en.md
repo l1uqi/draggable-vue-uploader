@@ -2,32 +2,47 @@
 
 <div align="center">
 
-English | [简体中文](./README.md)
+[简体中文](./README.md) | English
 
 </div>
-This is a simple file upload component that allows drag and drop sorting of uploaded files.
 
-If you found the project helpful,  I hope you can contribute a star
+A simple uploader component that supports drag-and-drop sorting of image lists.
 
-**Support for Vue 3**
+If this project is helpful to you, please star it!
 
-## Run
+**Supports Vue 3**
+
+## Example
+[demo](https://hello7cat.com/draggable-vue-uploader/)
+
+## Run demo
 
 cd example
 
+npm run i
+
 npm run dev
 
-## API
+## Documentation
+
+### Props
+|Prop|Description|Type|Default|
+|---|---|---|---|
+|action|The URL to upload to|`string`|`-`|
+|fileList|List of files|`FileItem[]`|`-`|
+|before-upload|Triggered before uploading a file|`(file: File) => boolean\| Promise`|`-`|
 
 ### Events
-|事件名|描述|参数|
+|Event|Description|Parameters|
 |---|---|---|
-|change|上传的文件状态发生改变时触发|fileList: `FileItem[]`<br>fileItem: `fileItem`|
+|change|Triggered when the status of a file being uploaded changes|fileList: `FileItem[]`<br>fileItem: `fileItem`|
+|progress|Upload file progress bar|fileItem: `fileItem`<br>progress: `progress`|
+|success|Triggered when upload is successful|fileItem: `fileItem`<br>result: `result`|
+|error|Triggered when upload fails|fileItem: `FileItem`<br>error: `error`|
 
-
-## To-Do List
+## Todo
 
 - [x] Basic functionality
 - [x] Image preview
 - [ ] Animation
-- [ ] Component packaging
+- [ ] Packaging

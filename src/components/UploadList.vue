@@ -15,9 +15,9 @@
         :url="item.url"
         @change="(e) => onChange(e, index)"
         @delete="(e) => onDelete(e, index)"
-        @success="(e, file) => onSuccess(e, index, file)"
-        @error="(e) => onError(e, index)"
-        @progress="(e) => onProgress(e, index)"
+        @success="(file, res) => onSuccess(file, res, index)"
+        @error="(file, err) => onError(file, err, index)"
+        @progress="onProgress"
         @viewer="(e) => onViewer(e, index)"
       />
     </div>
@@ -53,6 +53,16 @@ const addList = () => {
   list.value.push({ file: null, url: "", id: new Date().getTime() });
 };
 
+const fileList = computed(() => {
+  let fileList = [];
+  list.value.forEach((element) => {
+    if (element.file !== null || element.url !== "") {
+      fileList.push(element);
+    }
+  });
+  return fileList;
+});
+
 const dragStart = (event, index) => {
   dragIndex.value = index;
   dragElement.value = list.value[index];
@@ -75,30 +85,26 @@ const dragOver = (event, index) => {
   // 更改当前下标
   dragIndex.value = index;
   dragElement.value = list.value[index];
-  emit("change", dragElement.value, getList());
+  emit("change", fileList.value);
 };
 
-const onProgress = (percent) => {
-  emit("progress", percent);
+const onProgress = (file, percent) => {
+  emit("progress", file, percent);
 };
-const onSuccess = (result, index, file) => {
-  list.value[index].file = file
-  list.value[index].url = file.url
-  emit("success", result);
-  addList();
+const onSuccess = (file, result, index) => {
+  list.value[index].file = file;
+  list.value[index].url = file.url;
+  emit("success", file, result);
 };
-const onError = (error) => {
-  // emit("error", error);
+const onError = (file, err, index) => {
+  list.value.splice(index, 1);
+  emit("error", file, err);
 };
 
 const onChange = (file, index) => {
   list.value[index].file = file;
-  list.value[index].id = file.name;
-  if (file.url) {
-    list.value[index].url = file.url;
-  }
   addList();
-  emit("change", file, getList());
+  emit("change", fileList.value);
 };
 
 const onDelete = (e, index) => {
@@ -107,17 +113,7 @@ const onDelete = (e, index) => {
 };
 
 const onViewer = (e, index) => {
-  emit("viewer", e, index, getList());
-};
-
-const getList = () => {
-  let fileList = [];
-  list.value.forEach((element) => {
-    if (element.file !== null || element.url !== "") {
-      fileList.push(element);
-    }
-  });
-  return fileList;
+  emit("viewer", e, index, fileList.value);
 };
 </script>
 <style>
