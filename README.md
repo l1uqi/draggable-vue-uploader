@@ -1,3 +1,12 @@
+
+[![NPM version][npm-image]][npm-url]
+<a href="https://github.com/l1uqi/draggable-vue-uploader/blob/main/LICENSE">
+    <img alt="license" src="https://img.shields.io/badge/license-MIT-brightgreen">
+</a>
+
+[npm-image]: https://img.shields.io/npm/v/draggable-vue-uploader
+[npm-url]: https://www.npmjs.com/package/draggable-vue-uploader
+
 # draggable-vue-uploade
 
 <div align="center">
@@ -7,7 +16,6 @@
 </div>
 
 ![](https://github.com/l1uqi/PicGo/blob/main/blog/draggable.gif?raw=true)
-
 
 一个简单的图片上传组件, 支持图片列表拖拽排序。
 
@@ -65,4 +73,4 @@ npm run dev
 - [x] 打包发布
 - [x] 动画
 - [ ] 完善的API
-
+- [ ] 组件测试

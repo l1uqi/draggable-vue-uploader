@@ -1,3 +1,11 @@
+
+[![NPM version][npm-image]][npm-url]
+<a href="https://github.com/l1uqi/draggable-vue-uploader/blob/main/LICENSE">
+    <img alt="license" src="https://img.shields.io/badge/license-MIT-brightgreen">
+</a>
+
+[npm-image]: https://img.shields.io/npm/v/draggable-vue-uploader
+[npm-url]: https://www.npmjs.com/package/draggable-vue-uploader
 # draggable-vue-uploader
 
 <div align="center">
