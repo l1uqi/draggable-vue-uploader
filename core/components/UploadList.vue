@@ -1,27 +1,28 @@
 <template>
-  <div class="draggable-upload-list">
-    <div
-      class="draggable-upload-list--item"
-      v-for="(item, index) in list"
-      :key="item.id"
-      :draggable="index < list.length - 1"
-      @dragstart="(e) => dragStart(e, index)"
-      @dragover="(e) => dragOver(e, index)"
-    >
-      <Upload
-        :action="props.action"
-        :beforeUpload="props.beforeUpload"
-        :file="item.file"
-        :url="item.url"
-        @change="(e) => onChange(e, index)"
-        @delete="(e) => onDelete(e, index)"
-        @success="(file, res) => onSuccess(file, res, index)"
-        @error="(file, err) => onError(file, err, index)"
-        @progress="onProgress"
-        @viewer="(e) => onViewer(e, index)"
-      />
-    </div>
-  </div>
+    <transition-group class="draggable-upload-list" name="flip-list" tag="ul">
+      <li
+        class="draggable-upload-list--item"
+        v-for="(item, index) in list"
+        :key="item.id"
+        :draggable="index < list.length - 1"
+        @dragstart="(e) => dragStart(e, index)"
+        @dragover="(e) => dragOver(e, index)"
+      >
+        <Upload
+          :action="props.action"
+          :headers="props.headers"
+          :beforeUpload="props.beforeUpload"
+          :file="item.file"
+          :url="item.url"
+          @change="(e) => onChange(e, index)"
+          @delete="(e) => onDelete(e, index)"
+          @success="(file, res) => onSuccess(file, res, index)"
+          @error="(file, err) => onError(file, err, index)"
+          @progress="onProgress"
+          @viewer="(e) => onViewer(e, index)"
+        />
+      </li>
+    </transition-group>
 </template>
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, computed } from "vue";
@@ -41,21 +42,30 @@ const props = defineProps({
   data: Object,
   beforeUpload: Function,
   fileList: Array,
+  headers: {
+    type: Object,
+    default: {},
+    required: false,
+  },
   maximum: {
     type: Number,
     default: 10,
-    required: false
-  }
+    required: false,
+  },
 });
 
 const list = ref(props.fileList);
+
+let lastDragOverTimestamp = 0;
+
+let time = 200;
 
 onMounted(() => {
   addList();
 });
 
 const addList = () => {
-  if(list.value.length < props.maximum) {
+  if (list.value.length < props.maximum) {
     list.value.push({ file: null, url: "", id: new Date().getTime() });
   }
 };
@@ -76,15 +86,18 @@ const dragStart = (event, index) => {
 };
 
 const dragOver = (event, index) => {
+  const currentTimestamp = new Date().getTime();
   event.preventDefault();
   dragOverIndex.value = index;
   if (
     dragOverIndex.value === -1 ||
     dragIndex.value === index ||
-    dragOverIndex.value === list.value.length - 1
+    dragOverIndex.value === list.value.length - 1 ||
+    currentTimestamp - lastDragOverTimestamp <= time
   ) {
     return;
   }
+  lastDragOverTimestamp = currentTimestamp;
   // 后删除
   list.value.splice(dragIndex.value, 1);
   // 先插入
@@ -116,7 +129,10 @@ const onChange = (file, index) => {
 
 const onDelete = (e, index) => {
   list.value.splice(index, 1);
-  if(list.value[list.value.length-1].file !== null || list.value[list.value.length-1].url !== '') {
+  if (
+    list.value[list.value.length - 1].file !== null ||
+    list.value[list.value.length - 1].url !== ""
+  ) {
     addList();
   }
   emit("delete", e, index);
@@ -131,10 +147,16 @@ const onViewer = (e, index) => {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  list-style-type: none;
+  padding-inline-start: 0;
   width: 100%;
 }
 
 .draggable-upload-list--item {
-  overflow: hidden;
+  list-style: none;
+}
+
+.flip-list-move {
+  transition: transform 0.3s;
 }
 </style>

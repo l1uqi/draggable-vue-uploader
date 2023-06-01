@@ -30,8 +30,8 @@
     />
     <div class="draggable-upload-picture" v-if="isFile">
       <img :src="url" />
-      <div class="mask">
-        <div class="mask-icon">
+      <div class="draggable-upload-picture--mask">
+        <div class="draggable-upload-picture--mask-icon">
           <svg
             t="1685080359077"
             class="icon"
@@ -99,6 +99,11 @@ const props = defineProps({
   name: String,
   data: Object,
   beforeUpload: Function,
+  headers: {
+    type: Object,
+    default: {},
+    required: false,
+  },
   file: {
     type: Object,
     default: null,
@@ -114,8 +119,6 @@ const props = defineProps({
 const url = ref(props.url);
 
 const file = ref(props.file);
-
-const action = ref(props.action);
 
 const inputRef = ref(null);
 
@@ -143,7 +146,9 @@ const handleInputChange = (event) => {
     if (next) {
       uploadStatus.value.percent = "";
       uploadStatus.value.loading = true;
-      uploadFile(selectedFile, action.value, onProgress, onSuccess, onError);
+      uploadFile({
+        ...props
+      }, selectedFile, onProgress, onSuccess, onError);
     }
   };
   if (selectedFile) {
@@ -162,7 +167,7 @@ const onSuccess = (result) => {
 const onError = (error) => {
   uploadStatus.value.loading = false;
   file.value = null;
-  url.value = '';
+  url.value = "";
   emit("error", null, error);
 };
 
@@ -231,7 +236,7 @@ const handleImgViewer = () => {
   height: 100%;
 }
 
-.mask {
+.draggable-upload-picture--mask {
   position: absolute;
   top: 0;
   left: 0;
@@ -247,17 +252,17 @@ const handleImgViewer = () => {
   border-radius: 5px;
 }
 
-.mask-icon {
+.draggable-upload-picture--mask-icon {
   display: flex;
   width: 100px;
   justify-content: space-around;
 }
 
-.mask .icon {
+.draggable-upload-picture--mask .icon {
   cursor: pointer;
 }
 
-.draggable-upload-picture:hover .mask {
+.draggable-upload-picture:hover .draggable-upload-picture--mask {
   opacity: 1;
 }
 

@@ -26,6 +26,7 @@ const props = defineProps({
   fileList: Array,
   url: String,
   maximum: Number,
+  headers: Object
 });
 
 const onProgress = (file, percent) => {

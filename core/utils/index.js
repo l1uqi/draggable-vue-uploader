@@ -1,6 +1,7 @@
-export const uploadFile = (file, url, onProgress, onSuccess, onError) => {
+export const uploadFile = (options, file, onProgress, onSuccess, onError) => {
+  const { action, headers } = options;
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', url, true);
+  xhr.open('POST', action, true);
 
   xhr.upload.onprogress = (event) => {
     if (event.lengthComputable) {
@@ -23,6 +24,10 @@ export const uploadFile = (file, url, onProgress, onSuccess, onError) => {
 
   const formData = new FormData();
   formData.append('file', file);
+
+  for (const key of Object.keys(headers)) {
+    xhr.setRequestHeader(key, headers[key]);
+  }
 
   xhr.send(formData);
 };
