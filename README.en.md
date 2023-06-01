@@ -2,13 +2,15 @@
 
 <div align="center">
 
-[简体中文](./README.md) | English
+English | [简体中文](./README.md)
 
 </div>
 
+![](https://github.com/l1uqi/PicGo/blob/main/blog/draggable.gif?raw=true)
+
 A simple image uploader component that supports drag-and-drop sorting of image lists.
 
-If this project is helpful to you, please star it!
+If this project helps you, please give it a star!
 
 **Supports Vue 3**
 
@@ -29,11 +31,11 @@ createApp(App).use(DraggableUploader).mount('#app')
 ## Example
 [demo](https://hello7cat.com/draggable-vue-uploader/)
 
-## Run demo
+## Development
 
 cd example
 
-npm run i
+npm i
 
 npm run dev
 
@@ -42,22 +44,24 @@ npm run dev
 ### Props
 |Prop|Description|Type|Default|
 |---|---|---|---|
-|action|The URL to upload to|`string`|`-`|
-|fileList|List of files|`FileItem[]`|`-`|
-|maximum|Maximum number of files in the list|`number`|`10`|
-|before-upload|Triggered before uploading a file|`(file: File) => boolean\| Promise`|`-`|
+|action|The URL for uploading.|`string`|`-`|
+|headers|The header information for uploading requests.|{key: value}|`-`|
+|fileList|The list of files.|`FileItem[]`|`-`|
+|maximum|The maximum number of uploads for the list.|`number`|`10`|
+|before-upload|Triggered before uploading files.|`(file: File) => boolean\| Promise`|`-`|
 
 ### Events
 |Event|Description|Parameters|
 |---|---|---|
-|change|Triggered when the status of a file being uploaded changes|fileList: `FileItem[]`<br>fileItem: `fileItem`|
-|progress|Upload file progress bar|fileItem: `fileItem`<br>progress: `progress`|
-|success|Triggered when upload is successful|fileItem: `fileItem`<br>result: `result`|
-|error|Triggered when upload fails|fileItem: `FileItem`<br>error: `error`|
+|change|Triggered when the file status changes.|fileList: `FileItem[]`<br>fileItem: `fileItem`|
+|progress|Upload file progress bar.|fileItem: `fileItem`<br>progress: `progress`|
+|success|Triggered when the upload is successful.|fileItem: `fileItem`<br>result: `result`|
+|error|Triggered when the upload fails.|fileItem: `FileItem`<br>error: `error`|
 
-## Todo
+## To-do
 
 - [x] Basic functionality
 - [x] Image preview
-- [x] Packaging
-- [ ] Animation
+- [x] Package release
+- [x] Animation
+- [ ] Complete API

@@ -6,6 +6,9 @@
 
 </div>
 
+![](https://github.com/l1uqi/PicGo/blob/main/blog/draggable.gif?raw=true)
+
+
 一个简单的图片上传组件, 支持图片列表拖拽排序。
 
 如果项目对你有所帮助, 欢迎star!
@@ -29,11 +32,11 @@ createApp(App).use(DraggableUploader).mount('#app')
 ## 例子
 [demo](https://hello7cat.com/draggable-vue-uploader/)
 
-## 运行demo
+## 开发
 
 cd example
 
-npm run i
+npm i
 
 npm run dev
 
@@ -43,6 +46,7 @@ npm run dev
 |参数名|描述|类型|默认值|
 |---|---|---|---|
 |action|上传的URL|`string`|`-`|
+|headers|上传请求头信息|{key: value}|`-`|
 |fileList|文件列表|`FileItem[]`|`-`|
 |maximum|列表最大上传数|`number`|`10`|
 |before-upload|上传文件前触发|`(file: File) => boolean\| Promise`|`-`|
@@ -59,5 +63,6 @@ npm run dev
 - [x] 基础功能
 - [x] 图片预览
 - [x] 打包发布
-- [ ] 动画
+- [x] 动画
+- [ ] 完善的API
 
