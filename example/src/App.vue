@@ -43,7 +43,7 @@ const fileList = ref([
   },
 ]);
 const handleChange = (files) => {
-  fileList.value = files;
+  console.log("handleChange", files);
 };
 const handleProgress = (file, progress) => {
   console.log("handleProgress", file, progress);
@@ -79,7 +79,7 @@ const beforeUpload = (file) => {
       @error="handleError"
       @delete="handleDelete"
       :beforeUpload="beforeUpload"
-    ></draggable-upload>
+    />
     <span>列表(最多上传10张)</span>
     <draggable-upload
       action="https://eopda57dr0r1oqg.m.pipedream.net"
@@ -89,8 +89,9 @@ const beforeUpload = (file) => {
       @error="handleError"
       @delete="handleDelete"
       :before-upload="beforeUpload"
+      :maximum="15"
       :fileList="fileList"
-    ></draggable-upload>
+    />
     序号:
     <span v-for="(item, index) in fileList" :key="item.id"
       >{{ item.id }}&nbsp;</span

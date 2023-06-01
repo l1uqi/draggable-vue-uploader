@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "draggable-vue-uploader": "^0.0.3",
+    "draggable-vue-uploader": "^0.0.4",
     "vue": "^3.2.47"
   },
   "devDependencies": {
