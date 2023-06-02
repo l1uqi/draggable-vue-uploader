@@ -55,6 +55,7 @@ npm run dev
 |---|---|---|---|
 |action|上传的URL|`string`|`-`|
 |headers|上传请求头信息|{key: value}|`-`|
+|draggable|是否拖拽排序|`boolean`|`true`|
 |fileList|文件列表|`FileItem[]`|`-`|
 |maximum|列表最大上传数|`number`|`10`|
 |before-upload|上传文件前触发|`(file: File) => boolean\| Promise`|`-`|

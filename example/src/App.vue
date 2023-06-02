@@ -83,6 +83,7 @@ const beforeUpload = (file) => {
     <span>列表(最多上传10张)</span>
     <draggable-upload
       action="https://eopda57dr0r1oqg.m.pipedream.net"
+      :draggable="false"
       @change="handleChange"
       @progress="handleProgress"
       @success="handleSuccess"

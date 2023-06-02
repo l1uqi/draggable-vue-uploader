@@ -1,28 +1,28 @@
 <template>
-    <transition-group class="draggable-upload-list" name="flip-list" tag="ul">
-      <li
-        class="draggable-upload-list--item"
-        v-for="(item, index) in list"
-        :key="item.id"
-        :draggable="index < list.length - 1"
-        @dragstart="(e) => dragStart(e, index)"
-        @dragover="(e) => dragOver(e, index)"
-      >
-        <Upload
-          :action="props.action"
-          :headers="props.headers"
-          :beforeUpload="props.beforeUpload"
-          :file="item.file"
-          :url="item.url"
-          @change="(e) => onChange(e, index)"
-          @delete="(e) => onDelete(e, index)"
-          @success="(file, res) => onSuccess(file, res, index)"
-          @error="(file, err) => onError(file, err, index)"
-          @progress="onProgress"
-          @viewer="(e) => onViewer(e, index)"
-        />
-      </li>
-    </transition-group>
+  <transition-group class="draggable-upload-list" name="flip-list" tag="ul">
+    <li
+      class="draggable-upload-list--item"
+      v-for="(item, index) in list"
+      :key="item.id"
+      :draggable="index < list.length - 1 && props.draggable"
+      @dragstart="(e) => dragStart(e, index)"
+      @dragover="(e) => dragOver(e, index)"
+    >
+      <Upload
+        :action="props.action"
+        :headers="props.headers"
+        :beforeUpload="props.beforeUpload"
+        :file="item.file"
+        :url="item.url"
+        @change="(e) => onChange(e, index)"
+        @delete="(e) => onDelete(e, index)"
+        @success="(file, res) => onSuccess(file, res, index)"
+        @error="(file, err) => onError(file, err, index)"
+        @progress="onProgress"
+        @viewer="(e) => onViewer(e, index)"
+      />
+    </li>
+  </transition-group>
 </template>
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, computed } from "vue";
@@ -42,6 +42,11 @@ const props = defineProps({
   data: Object,
   beforeUpload: Function,
   fileList: Array,
+  draggable: {
+    type: Boolean,
+    default: true,
+    required: false,
+  },
   headers: {
     type: Object,
     default: {},
@@ -81,8 +86,10 @@ const fileList = computed(() => {
 });
 
 const dragStart = (event, index) => {
-  dragIndex.value = index;
-  dragElement.value = list.value[index];
+  if (props.draggable) {
+    dragIndex.value = index;
+    dragElement.value = list.value[index];
+  }
 };
 
 const dragOver = (event, index) => {
@@ -93,7 +100,8 @@ const dragOver = (event, index) => {
     dragOverIndex.value === -1 ||
     dragIndex.value === index ||
     dragOverIndex.value === list.value.length - 1 ||
-    currentTimestamp - lastDragOverTimestamp <= time
+    currentTimestamp - lastDragOverTimestamp <= time ||
+    !props.draggable
   ) {
     return;
   }

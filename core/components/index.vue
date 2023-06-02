@@ -26,15 +26,18 @@ const props = defineProps({
   fileList: Array,
   url: String,
   maximum: Number,
-  headers: Object
+  headers: Object,
+  draggable: Boolean,
 });
 
 const onProgress = (file, percent) => {
   emit("progress", file, percent);
 };
+
 const onSuccess = (file, result) => {
   emit("success", file, result);
 };
+
 const onError = (file, error) => {
   emit("error", file, error);
 };

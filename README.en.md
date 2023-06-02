@@ -50,13 +50,14 @@ npm run dev
 ## Documentation
 
 ### Props
-|Prop|Description|Type|Default|
-|---|---|---|---|
-|action|The URL for uploading.|`string`|`-`|
-|headers|The header information for uploading requests.|{key: value}|`-`|
-|fileList|The list of files.|`FileItem[]`|`-`|
-|maximum|The maximum number of uploads for the list.|`number`|`10`|
-|before-upload|Triggered before uploading files.|`(file: File) => boolean\| Promise`|`-`|
+| Name | Description | Type | Default |
+| --- | --- | --- | --- |
+| action | The URL to upload files | `string` | `-` |
+| headers | The headers to be sent with the upload request | `{key: value}` | `-` |
+| draggable | Whether to enable drag and drop file sorting | `boolean` | `true` |
+| fileList | The list of files to be uploaded | `FileItem[]` | `-` |
+| maximum | The maximum number of files that can be uploaded | `number` | `10` |
+| before-upload | A function that will be called before uploading a file | `(file: File) => boolean\| Promise` | `-` |
 
 ### Events
 |Event|Description|Parameters|
