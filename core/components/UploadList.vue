@@ -25,7 +25,7 @@
   </transition-group>
 </template>
 <script setup>
-import { ref, defineProps, defineEmits, onMounted, computed } from "vue";
+import { ref, defineProps, defineEmits, onMounted, computed, watch } from "vue";
 import Upload from "./upload.vue";
 
 const emit = defineEmits(["change", "delete", "progress", "success", "error"]);
@@ -60,7 +60,12 @@ const props = defineProps({
 });
 
 const list = ref(props.fileList);
-
+watch(
+  () => props.fileList,
+  () => {
+    list.value = props.fileList;
+  }
+);
 let lastDragOverTimestamp = 0;
 
 let time = 200;
